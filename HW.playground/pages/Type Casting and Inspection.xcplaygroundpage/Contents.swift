@@ -6,7 +6,7 @@
 let collection: [Any] = ["Card", 6, true, 4.83, "256", 999,
                          4567.235, true, false, -43, "Juice",
                          "Laptop", false, 554.785768, "Ring",
-                         1990, "Sock", 23, true, "-75", 45.2]
+                         1990, "Sock", 23, true, "-76", 45.2]
 
 print(collection)
 /*:
@@ -27,11 +27,11 @@ for item in collection {
  Создайте словарь [String : Any], где все значения — это смесь вещественных и целых чисел, строк и булевых значений.  Выведите крассиво на консоль пары ключ/значения для всех элементов коллекции.
  */
 let countOfCollection = collection.count
-var array: [String] = []
+var keysArray: [String] = []
 for i in 1...countOfCollection {
-    array.append("Key \(i)")
+    keysArray.append("Key \(i)")
 }
-let dictionary = Dictionary(uniqueKeysWithValues: zip(array, collection))
+let dictionary = Dictionary(uniqueKeysWithValues: zip(keysArray, collection))
 for item in dictionary {
     print("\(item.key) - \(item.value)")
 }
@@ -60,10 +60,14 @@ print(total)
  */
 total = 0
 for value in dictionary.values {
-    if let valueInt = value as? Int {
-        total += Double(valueInt)
-    } else if let valueDouble = value as? Double {
-        total += valueDouble
-    } 
+    switch value {
+    case let valueInt as Int: total += Double(valueInt)
+    case let valueDouble as Double: total += valueDouble
+    case let valueString as String:
+        if let unwrpValueString = Double(valueString) {
+            total += unwrpValueString
+        }
+    default: break
+    }
 }
 print(total)
